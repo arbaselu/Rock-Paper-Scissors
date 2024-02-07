@@ -10,10 +10,10 @@ int Player();
 int isOptionValid(const char* choice);
 void Computer();
 void determineWinner();
-void Winner();
+void FinalWinner();
 void ClearInputBuffer();
 void ResetScores();
- void clearScreen();
+ void ClearScreen();
 // Global variables for player and computer choices, and scores
 char player[10];
 char computer[10];
@@ -34,21 +34,20 @@ int main() {
         printf("SCORE:\nPlayer: %d\nComputer: %d\n", PlayerScore, ComputerScore);
 
         // Ask user if they want to exit, restart, or continue
-        printf("\nDo you want to exit, restart, or continue? (Exit: E, Restart: R, Continue: C or any keyword)\n");
+        printf("\nDo you want to exit, restart, or continue? (Exit: E, Restart: R, Continue: Type anything and press Enter to Continue)\n");
         scanf("%1s", ExitCommand);
-        clearScreen();
+        ClearScreen();
         ClearInputBuffer(); // Clear the input buffer
 
         // Check if the user wants to exit or restart
-        if (tolower(ExitCommand[0]) == 'e') {
-            break;
-        } else if (tolower(ExitCommand[0]) == 'r') {
-            ResetScores(); // Reset scores for a new game
+    if (tolower(ExitCommand[0]) == 'r') {
+            ResetScores();
         }
     } while (tolower(ExitCommand[0]) != 'e');
 
-    Winner(); // Display the final winner
-    printf("The console will close in 5 seconds...");
+    printf("FINAL SCORE:\nPlayer: %d\nComputer: %d\n", PlayerScore, ComputerScore);
+    FinalWinner();
+    printf("\n\n\n\nThe console will close in 5 seconds...");
     sleep(5);
 
     return 0;
@@ -57,7 +56,8 @@ int main() {
 // Function to get player's choice
 int Player() {
     while (1) {
-        printf("\nPlayer: Rock, Paper or Scissors?\n");
+       printf("Rock, Paper or Scissors?\n");
+         printf("\nPlayer: ");
         scanf("%9s", player);
         ClearInputBuffer();
 
@@ -70,7 +70,11 @@ int Player() {
         if (isOptionValid(player)) {
             return 0;
         } else {
-            printf("Invalid choice. Please choose Rock, Paper, or Scissors.\n");
+
+            printf("\nInvalid choice. Please try again.\n");
+           
+            sleep(1);
+            ClearScreen();
         }
     }
 }
@@ -111,7 +115,7 @@ void determineWinner() {
 }
 
 // Function to display the final winner
-void Winner() {
+void FinalWinner() {
     if (PlayerScore > ComputerScore) {
         printf("\nWinner: Player wins the Game\n");
     } else if (ComputerScore > PlayerScore) {
@@ -135,7 +139,7 @@ void ResetScores() {
 }
 
  //Clears the console screen by executing the 'cls' command on Windows or 'clear' on Unix/Linux.
-void clearScreen() {
+void ClearScreen() {
     #ifdef _WIN32
     system("cls");
     #else
